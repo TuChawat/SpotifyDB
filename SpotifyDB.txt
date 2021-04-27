@@ -1,0 +1,114 @@
+mysql> create database SpotifyDB;
+
+mysql> use SpotifyDB;
+Database changed
+
+mysql> create table user
+    -> (
+    -> id INT unsigned NOT NULL AUTO_INCREMENT,
+    -> name VARCHAR(150) NOT NULL,
+    -> email VARCHAR(150) NOT NULL,
+    -> PRIMARY KEY (id)
+    -> );
+
+mysql> create table playlist
+    -> (
+    -> id       INT unsigned NOT NULL,
+    -> PlaylistName VARCHAR(100) NOT NULL,
+    -> PRIMARY KEY (PlaylistName),
+    -> FOREIGN KEY (id) REFERENCES user(id)
+    -> )
+    -> ;
+
+mysql> create table track
+    -> (
+    -> Playlist VARCHAR(100) NOT NULL,
+    -> track VARCHAR(100) NOT NULL,
+    -> PRIMARY KEY (track),
+    -> FOREIGN KEY (Playlist) REFERENCES playlist(playlistName)
+    -> )
+    -> ;
+
+mysql> INSERT INTO user (name, email)
+    -> VALUES ("Tushar", "tushar1chawat@gmail.com"),
+    -> ("Abhishek", "AwachatAbhishek@gmail.com"),
+    -> ("Kunal", "urkudekunal@gmail.com");
+
+mysql> INSERT INTO playlist (id, PlaylistName)
+    -> Values(1, "Favourites"),
+    -> (1, "Hollywood"),
+    -> (2, "Bollywood"),
+    -> (2, "Old"),
+    -> (3, "Romantic"),
+    -> (3, "unplugged");
+
+mysql> INSERT INTO track (Playlist, track)
+    -> VALUES ("Favourites", "Born to Shine"),
+    -> ("Favourites", "Prada"),
+    -> ("Hollywood", "At my Worst"),
+    -> ("Hollywood", "Shape of you"),
+    -> ("Bollywood", "Pehla Pyaar"),
+    -> ("Bollywood", "Bol Do Na Zara"),
+    -> ("Old", "Yeh Dosti"),
+    -> ("Old", "Chand Sitare"),
+    -> ("Romantic", "Lut gaye"),
+    -> ("Romantic", "Vaaste"),
+    -> ("unplugged", "Mann Bharrya"),
+    -> ("unplugged", "Ik Mulaqaat");
+
+mysql> SELECT * FROM user;
++----+----------+---------------------------+
+| id | name     | email                     |
++----+----------+---------------------------+
+|  1 | Tushar   | tushar1chawat@gmail.com   |
+|  2 | Abhishek | AwachatAbhishek@gmail.com |
+|  3 | Kunal    | urkudekunal@gmail.com     |
++----+----------+---------------------------+
+
+mysql> SELECT * FROM playlist;
++----+--------------+
+| id | PlaylistName |
++----+--------------+
+|  1 | Favourites   |
+|  1 | Hollywood    |
+|  2 | Bollywood    |
+|  2 | Old          |
+|  3 | Romantic     |
+|  3 | unplugged    |
++----+--------------+
+
+mysql> SELECT * FROM track;
++------------+----------------+
+| Playlist   | track          |
++------------+----------------+
+| Bollywood  | Bol Do Na Zara |
+| Bollywood  | Pehla Pyaar    |
+| Favourites | Born to Shine  |
+| Favourites | Prada          |
+| Hollywood  | At my Worst    |
+| Hollywood  | Shape of you   |
+| Old        | Chand Sitare   |
+| Old        | Yeh Dosti      |
+| Romantic   | Lut gaye       |
+| Romantic   | Vaaste         |
+| unplugged  | Ik Mulaqaat    |
+| unplugged  | Mann Bharrya   |
++------------+----------------+
+
+mysql> select user.name,Playlist.PlaylistName,track.track from user join playlist on user.id = Playlist.id join track on Playlist.PlaylistName = track.Playlist;
++----------+--------------+----------------+
+| name     | PlaylistName | track          |
++----------+--------------+----------------+
+| Tushar   | Favourites   | Born to Shine  |
+| Tushar   | Favourites   | Prada          |
+| Tushar   | Hollywood    | At my Worst    |
+| Tushar   | Hollywood    | Shape of you   |
+| Abhishek | Bollywood    | Bol Do Na Zara |
+| Abhishek | Bollywood    | Pehla Pyaar    |
+| Abhishek | Old          | Chand Sitare   |
+| Abhishek | Old          | Yeh Dosti      |
+| Kunal    | Romantic     | Lut gaye       |
+| Kunal    | Romantic     | Vaaste         |
+| Kunal    | unplugged    | Ik Mulaqaat    |
+| Kunal    | unplugged    | Mann Bharrya   |
++----------+--------------+----------------+
